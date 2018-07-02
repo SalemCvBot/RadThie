@@ -1,9 +1,137 @@
-const Discord = require("discord.js");
+const Discord = require('discord.js');// npm i discord.js
 const client = new Discord.Client();
+const fs = require("fs"); //npm i fs
+const Canvas = require("canvas");//for linux = npm i canvas | for windows = npm i canvas-prebuilt
+const jimp = require("jimp");// npm i jimp
+const id = JSON.parse(fs.readFileSync("./id/mozo.json", "utf8"));
+client.on("message", message => {
+  if (message.author.bot) return;
+fs.writeFile('./id/mozo.json', JSON.stringify(id), (err) => {
+if (err) console.error(err);
+});
+});
+      client.on('message', message => {
+          if(!id[message.author.id]) id[message.author.id] ={
+              textrank: 1,
+              points: 1
+          };
+          if(message.author.bot) return;
+          id[message.author.id].points = Math.floor(id[message.author.id].points+4);
+          if(id[message.author.id].points > 10) {
+              id[message.author.id].points = 10;
+              id[message.author.id].level = Math.floor(id[message.author.id].level+4);
+          }
+          fs.writeFile('./id/mozo.json', JSON.stringify(id), (err) => {
+if (err) console.error(err);
+});
+   
+    client.on("message", message => {
+  if (message.author.bot) return;
+    if(!message.channel.guild) return;
+if (message.content.startsWith(prefix + "id")) {
+                               let user = message.mentions.users.first();
+         var human = message.mentions.users.first();
+            var author;
+            if(human) {
+                author = human;
+            } else {
+                author = message.author;
+            }
+          var mentionned = message.mentions.members.first();
+             var ah;
+            if(mentionned) {
+                ah = mentionned;
+            } else {
+                ah = message.member;
+            }
+            var ment = message.mentions.users.first();
+            var getvalueof;
+            if(ment) {
+              getvalueof = ment;
+            } else {
+              getvalueof = message.author;
+            }
+   var mentionned = message.mentions.users.first();
+ 
+    var client;
+      if(mentionned){
+          var client = mentionned;
+      } else {
+          var client = message.author;
+ 
+      }
+if (!id[getvalueof.id]) id[getvalueof.id] = {textrank: 0,points: 1};
+            let Image = Canvas.Image,
+            canvas = new Canvas(400, 200),
+            ctx = canvas.getContext('2d');
+            fs.readFile("./id/rank.png", function (err, Background) {
+            if (err) return console.log(err);
+            let id = Canvas.Image;
+            let ground = new Image;
+            ground.src = Background;
+            ctx.drawImage(ground, 0, 0, 400, 200);
+ 
+});
+ 
+ 
+ 
+                let url = getvalueof.displayAvatarURL.endsWith(".webp") ? getvalueof.displayAvatarURL.slice(5, -20) + ".png" : getvalueof.displayAvatarURL;
+                jimp.read(url, (err, ava) => {
+                    if (err) return console.log(err);
+                    ava.getBuffer(jimp.MIME_PNG, (err, buf) => {
+                        if (err) return console.log(err);
+ 
+                        // N A M E  |  S H A D O W
+                        ctx.font = 'bold 18px Arial';
+                        ctx.fontSize = '18px';
+                        ctx.fillStyle = "#000000";
+                        ctx.textAlign = "center";
+                        ctx.fillText(`${getvalueof.username}`, 253, 79);
+ 
+                        // N A M E
+                        ctx.font = 'bold 18px Arial';
+                        ctx.fontSize = '18px';
+                        ctx.fillStyle = "#f1f1f1";
+                        ctx.textAlign = "center";
+                        ctx.fillText(`${getvalueof.username}`, 253, 77);
+ 
+ 
+                        // T E X T  R A N K
+                        ctx.font = "bold 12px Arial";
+                        ctx.fontSize = '12px';
+                        ctx.fillStyle = "#f1f1f1";
+                        ctx.textAlign = "center";
+                        ctx.fillText(`${id[getvalueof.id].textrank}`, 252, 124);
+ 
+                        // P O I N T S
+                        ctx.font = "bold 12px Arial";
+                        ctx.fontSize = '12px';
+                        ctx.fillStyle = "#f1f1f1";
+                        ctx.textAlign = "center";
+                        ctx.fillText(`${id[getvalueof.id].points}`, 253, 171);
+ 
+ 
+                        let Avatar = Canvas.Image;
+                        let ava = new Avatar;
+ 
+ava.src = buf;
+                        ctx.beginPath();
+                        ctx.arc(75, 100, 780, 0, Math.PI*2, true);
+                        ctx.closePath();
+                        ctx.clip();
+                        ctx.drawImage(ava, 26, 69, 93, 93);
+                       
+message.channel.sendFile(canvas.toBuffer());
+ 
+});
+});
+}
+});
+});
 client.on('ready', function(){
     client.user.setStatus("dnd");
     var ms = 100000 ;
-    var setGame = [` Loding... `,`.help|ان اردت جميع الأوامر هنا`,`.invite |ان اردت اضافة البوت الى سيرفرك  `,`ON ${client.guilds.size} SERVER |`];
+    var setGame = [` Loading... `,` .help | .invite `,`ON : ${client.guilds.size} SERVER `];
     var i = -1;
     var j = 0;
     setInterval(function (){
@@ -29,6 +157,8 @@ client.on('message', message => {
     return message.reply(`** No Invite Links :angry: ! **`)
     }
 });
+
+
 
 
 // هاذا كود الترحيب لما يخش شخص يقول انه خش ولما يطلع شخص يقول انه طلع شخص و يقول كم شخص باقي بالسيرفر
@@ -282,7 +412,7 @@ let embed = new Discord.RichEmbed()
                 
                                  .addField('شكرا لدخولك سيرفر', `${member.guild.name}`,true)
                                    
- .setFooter("Fire Bot")
+ .setFooter("Cristall Bot")
     .setTimestamp()
 
   channel.sendEmbed(embed);
@@ -362,8 +492,8 @@ client.on('message', msg => {
              client.on('message', message => {
                 if(message.content === prefix + "invite") {
                     let embed = new Discord.RichEmbed ()
-                    embed.setTitle("**:point_right:  Invite FireBot-Bot!**")
-                    .setURL("https://discordapp.com/oauth2/authorize?client_id=451021932964479007&scope=bot&permissions=2146958591");
+                    embed.setTitle("**:point_right:  Invite CristallBot-Bot!**")
+                    .setURL("https://discordapp.com/oauth2/authorize?client_id=456820511033393164&scope=bot&permissions=2146958591");
                    message.channel.sendEmbed(embed);
                   }
 });
@@ -466,7 +596,7 @@ client.on('message', message => {
        color : " #000000"
    }) 
       message.guild.createRole({
-       name : "FireBot",
+       name : "CristallBot",
        permissions :   [1],
        color : " #000000"
    }) 
@@ -479,23 +609,33 @@ client.on('message', message => {
     if(!message.channel.guild) return message.channel.send('**This Command Only For Servers !**')
             if (!message.member.hasPermission('MANAGE_CHANNELS')) return message.channel.send(`**${message.author.username} You Dont Have** ``MANAGE_CHANNELS`` **Premission**`);
 
-     message.guild.createChannel('rules', 'text')
-	 message.guild.createChannel('welcome', 'text')
+		message.guild.createChannel('-----------| Info |-----------', 'voice')
+     message.guild.createChannel('welcome', 'text')
+	 message.guild.createChannel('rules', 'text')
+	 message.guild.createChannel('info', 'text')
+	 message.guild.createChannel('warnings', 'text')
+	 message.guild.createChannel('-----------| Text |-----------', 'voice')
 	 message.guild.createChannel('chat', 'text')
-	 message.guild.createChannel('youtube', 'text')
-	 message.guild.createChannel('bot-commands', 'text')
-	 message.guild.createChannel('admin-chat', 'text')
-	 message.guild.createChannel('audit-log', 'text')
+	 message.guild.createChannel('bot', 'text')
+	 message.guild.createChannel('skin', 'text')
+	 message.guild.createChannel('avatar', 'text')
+	 message.guild.createChannel('-----------| Voise |-----------', 'voice')
      message.guild.createChannel('public room', 'voice')
+	 message.guild.createChannel('-----------| Privats |-----------', 'voice')
 	 message.guild.createChannel('private 1', 'voice')
 	 message.guild.createChannel('private 2', 'voice')
 	 message.guild.createChannel('private 3', 'voice')
 	 message.guild.createChannel('private 4', 'voice')
+	 message.guild.createChannel('-----------| Rec |-----------', 'voice')
 	 message.guild.createChannel('recording 1', 'voice')
 	 message.guild.createChannel('recording 2', 'voice')
+	 message.guild.createChannel('-----------| Other |-----------', 'voice')
 	 message.guild.createChannel('montage 1', 'voice')
 	 message.guild.createChannel('montage 2', 'voice')
-	 message.guild.createChannel('Fire-Bot', 'voice')
+	 message.guild.createChannel('-----------| Bot |-----------', 'voice')
+	 message.guild.createChannel('Cristall-Bot', 'voice')
+	 message.guild.createChannel('-----------| AFK |-----------', 'voice')
+	 message.guild.createChannel('AFK', 'voice')
 
 message.channel.sendMessage('**Text Channel Was Succsesfluy Created**')
 }
@@ -578,20 +718,14 @@ var prefix = '.';
 client.on('message', message => {
 if (message.content.startsWith(prefix + 'help')) {
          let pages = [`
-
-╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱
-╭━━━╮╱╱╱╭━━ ┳━ ━╮╱╱     ╭╮╱
-┃╭━━╯╱╱╱┃╭ ╮┃ ╭╮┃╱╱╭╯╰╮╱
-┃╰━━┳-┳━- ┫╰ ╯┃ ╰╯╰┳━┻╮╭╯╱
-┃╭━━┫  ┃ ╭-┫╭ ━┫╭━╮┃╭╮┃┃╱╱
-┃┃╱╱┃  ┃ ┃ ┃╰━-┫╰━╯┃╰╯┃╰╮╱
-╰╯╱╱╰-╯ ╯ ╰━━-┻━━━┻━━┻━╯╱                                                                                                                                                                                                                              ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱		 
+                                                                                                                                                                                                                            ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱		 
 
  ═══════════ஜ۩۞۩ஜ════════════
  
 	عامه اوامر
 	
-
+تحدث مع صاحب البوت =\    => .contact
+	
 『.id / معلومات عن حسابك』
 『.draw / يكرر كلامك في صوره』
 『.embed / يكرر كلامك بمبيد』
@@ -661,7 +795,7 @@ if (message.content.startsWith(prefix + 'help')) {
 『.لعبه اسئله / كت تويت』
  ═══════════ஜ۩۞۩ஜ════════════
             سيتم اضافة  اوامر جديدة انشاء الله 
-__~~Fire-Bot~~__ By: @𝓑𝓐𝓢𝓢 ⚠#7891 `]
+__~~Cristall-Bot~~__ By: @𝓑𝓐𝓢𝓢 ⚠#7891 `]
     let page = 1;
 
     let embed = new Discord.RichEmbed()
@@ -703,18 +837,6 @@ __~~Fire-Bot~~__ By: @𝓑𝓐𝓢𝓢 ⚠#7891 `]
     }
 });
 
-
-const figlet = require('figlet');
-client.on('message', message => {
-if (message.content.startsWith(prefix + 'tag')) {
-    let args = message.content.split(" ").slice(1);
-if(!args[0]) return message.reply('**اكتب اي  شيء الي  تبي  تزخرفه**');  
-
-    figlet(args.join(" "), (err, data) => {
-              message.channel.send("```" + data + "```")
-           })
-}
-});
 
 
 client.on("message", message => {
@@ -816,7 +938,7 @@ let embed = new Discord.RichEmbed()
      .setAuthor(message.author.username, message.author.avatarURL)
      .setDescription(':mailbox_with_mail: تم ارسال الرسالة الى صاحب البوت بنجاح')
      .setThumbnail(message.author.avatarURL)
-     .setFooter("By : FireBot")
+     .setFooter("By : CristallBot")
                                                 
 
 message.channel.send(embed);
@@ -839,7 +961,7 @@ client.on("message", message => {
 
 	  **__وصف عن البوت__**
 **
-FireBot 
+CristallBot 
 ان هذا  البوت بوت رهيب   وجميل  تتوفر فيه اوامر غير عادية وجديدة  تشرف عليها من قبل 
 ***
 **
@@ -870,10 +992,10 @@ client.on('message', message => {
         message.edit('**✱➼ F**')    
         message.edit('**✱➼ FI**')
         message.edit('**✱➼ FIR**')
-        message.edit('**✱➼ FIRE**')
-        message.edit('**✱➼ FIRE B**')
-        message.edit('**✱➼ FIRE BO**')
-        message.edit('**✱➼ FIRE BOT.**')
+        message.edit('**✱➼ Cristall**')
+        message.edit('**✱➼ Cristall B**')
+        message.edit('**✱➼ Cristall BO**')
+        message.edit('**✱➼ Cristall BOT.**')
     
         }, 1000)
     }
@@ -1198,7 +1320,7 @@ const Love = [  "**احبك / عدد قطرات المـــطر والشجر و
                      
                                      .addField('اسم سيرفر', `${member.guild.name}`,true)
                                        
-     .setFooter("**FireBot**")
+     .setFooter("**CristallBot**")
         .setTimestamp()
    
       channel.sendEmbed(embed);
@@ -1603,7 +1725,7 @@ client.on('message', message => {
 
   
     var prefix = ".";
-var cats = ["https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg","http://www.dogbazar.org/wp-content/uploads/2014/09/british-bull-dog-puppies.jpg","http://cdn2-www.dogtime.com/assets/uploads/gallery/german-shepherd-dog-breed-pictures/standing-7.jpg","http://cdn.akc.org/Marketplace/Breeds/German_Shepherd_Dog_SERP.jpg","https://animalso.com/wp-content/uploads/2016/12/black-german-shepherd_2.jpg","https://static.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpg","https://www.petfinder.com/wp-content/uploads/2012/11/101438745-cat-conjunctivitis-causes.jpg","http://www.i-love-cats.com/images/2015/04/12/cat-wallpaper-38.jpg","https://www.aspca.org/sites/default/files/cat-care_urine-marking_main-image.jpg","https://s-media-cache-ak0.pinimg.com/originals/f0/3b/76/f03b7614dfadbbe4c2e8f88b69d12e04.jpg","http://www.rd.com/wp-content/uploads/sites/2/2016/04/15-cat-wants-to-tell-you-attention.jpg","https://www.thelocal.de/userdata/images/article/fa6fd5014ccbd8f4392f716473ab6ff354f871505d9128820bbb0461cce1d645.jpg","https://www.adelaidezoo.com.au/wp-content/uploads/sites/2/animals/GiantPanda3Slider.jpg","http://imagem.band.com.br/f_230168.jpg"]
+var cats = ["https://i.ytimg.com/vi/SfLV8Cristall7zX4/maxresdefault.jpg","http://www.dogbazar.org/wp-content/uploads/2014/09/british-bull-dog-puppies.jpg","http://cdn2-www.dogtime.com/assets/uploads/gallery/german-shepherd-dog-breed-pictures/standing-7.jpg","http://cdn.akc.org/Marketplace/Breeds/German_Shepherd_Dog_SERP.jpg","https://animalso.com/wp-content/uploads/2016/12/black-german-shepherd_2.jpg","https://static.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpg","https://www.petfinder.com/wp-content/uploads/2012/11/101438745-cat-conjunctivitis-causes.jpg","http://www.i-love-cats.com/images/2015/04/12/cat-wallpaper-38.jpg","https://www.aspca.org/sites/default/files/cat-care_urine-marking_main-image.jpg","https://s-media-cache-ak0.pinimg.com/originals/f0/3b/76/f03b7614dfadbbe4c2e8f88b69d12e04.jpg","http://www.rd.com/wp-content/uploads/sites/2/2016/04/15-cat-wants-to-tell-you-attention.jpg","https://www.thelocal.de/userdata/images/article/fa6fd5014ccbd8f4392f716473ab6ff354f871505d9128820bbb0461cce1d645.jpg","https://www.adelaidezoo.com.au/wp-content/uploads/sites/2/animals/GiantPanda3Slider.jpg","http://imagem.band.com.br/f_230168.jpg"]
     client.on('message', message => {
         var args = message.content.split(" ").slice(1);
     if(message.content.startsWith(prefix + 'animal')) {
@@ -1765,7 +1887,7 @@ client.on('guildMemberAdd', member => {
     .setDescription(`**اهلا بك في السيرفر**:white_flower: `)
     .addField(' :bust_in_silhouette:  **انت رقم**',`**[ ${member.guild.memberCount} ]**`,true)
     .setColor('GREEN')
-    .setFooter('Fire-Bot', 'https://cdn.discordapp.com/icons/390551815072251904/418fa2788d8115808951c9881ba8f190.jpg')
+    .setFooter('Cristall-Bot', 'https://cdn.discordapp.com/icons/390551815072251904/418fa2788d8115808951c9881ba8f190.jpg')
 
 var channel =member.guild.channels.find('name', 'welcome')
 if (!channel) return;
@@ -1780,7 +1902,7 @@ client.on('guildMemberRemove', member => {
     .setDescription(`:wave: **الى اللقاء...**`)
     .addField(':bust_in_silhouette:   **تبقي**',`**[ ${member.guild.memberCount} ]**`,true)
     .setColor('RED')
-    .setFooter(`Fire-Bot`, '')
+    .setFooter(`Cristall-Bot`, '')
 
 var channel =member.guild.channels.find('name', 'welcome')
 if (!channel) return;
@@ -2317,7 +2439,7 @@ client.on("guildCreate", guild => {
 });
 
 client.on('ready',  () => {
-  console.log('تم تشغيل :FireBot  ');
+  console.log('تم تشغيل :CristallBot  ');
   console.log(`Logged in as * [ " ${client.user.username} " ] servers! [ " ${client.guilds.size} " ]`);
   console.log(`Logged in as * [ " ${client.user.username} " ] Users! [ " ${client.users.size} " ]`);
   console.log(`Logged in as * [ " ${client.user.username} " ] channels! [ " ${client.channels.size} " ]`);
@@ -13688,4 +13810,4 @@ message.member.addRole(message.guild.roles.find("name", "100"));
 });
 
 
-client.login('NDUxMDIxOTMyOTY0NDc5MDA3.De7ubg.ScxY1wzotDkNM2j-f_NjhNhik4s');
+client.login('NDU2ODIwNTExMDMzMzkzMTY0.DgQGxw.xvlSwoq8mUGfmBV2PX4G75lp3e0');
