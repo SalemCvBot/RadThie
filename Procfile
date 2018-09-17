@@ -1,1 +1,0 @@
-worker: node SalemCvBot.js
